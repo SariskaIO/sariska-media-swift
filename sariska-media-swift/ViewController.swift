@@ -1,9 +1,9 @@
 import UIKit
-
+import sariska;
 
 class ViewController: UIViewController {
 	
-	var connection: Connection? = nil
+    var connection: Connection? = nil
 	var conference: Conference? = nil
 	var stackView: UIStackView? = nil
 	var localTracks: [JitsiLocalTrack] = []
@@ -31,16 +31,16 @@ class ViewController: UIViewController {
 		
 		let connection =  SariskaMediaTransport.JitsiConnection(token: token)
 		
-		connection.addEventListener(event: "CONNECTION_ESTABLISHED") {
+        connection.addEventListener("CONNECTION_ESTABLISHED") {
 			self.connection = connection
 			self.createConference()
 		}
 		
-		connection.addEventListener(event: "CONNECTION_FAILED") {
+        connection.addEventListener("CONNECTION_FAILED") {
 			print("CONNECTION_FAILED")
 		}
 		
-		connection.addEventListener(event: "CONNECTION_DISCONNECTED") {
+        connection.addEventListener("CONNECTION_DISCONNECTED") {
 			print("CONNECTION_DISCONNECTED")
 		}
 		
@@ -53,13 +53,13 @@ class ViewController: UIViewController {
 		options["video"] = true
 		options["resolution"] = 240
 		
-		SariskaMediaTransport.createLocalTracks(options: options) { tracks in
+        SariskaMediaTransport.createLocalTracks(options) { tracks in
 			DispatchQueue.main.async {
-				self.localTracks = tracks
+                self.localTracks = tracks as! [JitsiLocalTrack]
 				for track in tracks {
-					if (track.getType() == "video")  {
-						let videoView =  track.render()
-						self.attachVideo(videoView:  videoView, trackId: track.getId())
+                    if ((track as AnyObject).getType() == "video")  {
+                        let videoView =  (track as AnyObject).render()
+                        self.attachVideo(videoView:  videoView, trackId: (track as AnyObject).getId())
 					}
 				}
 			}
@@ -78,13 +78,13 @@ class ViewController: UIViewController {
 			return
 		}
 		
-		conference.addEventListener(event: "CONFERENCE_JOINED") {
+        conference.addEventListener("CONFERENCE_JOINED") {
 			for track in self.localTracks {
 				conference.addTrack(track: track)
 			}
 		}
 		
-		conference.addEventListener(event: "TRACK_ADDED") { track in
+        conference.addEventListener("TRACK_ADDED") { track in
 			let track = track as! JitsiRemoteTrack
 			DispatchQueue.main.async {
 				if (track.getType() == "video") {
@@ -94,14 +94,14 @@ class ViewController: UIViewController {
 			}
 		}
 		
-		conference.addEventListener(event: "TRACK_REMOVED") { track in
+        conference.addEventListener("TRACK_REMOVED") { track in
 			let track = track as! JitsiRemoteTrack
 			DispatchQueue.main.async {
 				self.removeVideo(trackId: track.getId())
 			}
 		}
 		
-		conference.addEventListener(event: "CONFERENCE_LEFT") {
+        conference.addEventListener("CONFERENCE_LEFT") {
 			print("CONFERENCE_LEFT")
 		}
 		

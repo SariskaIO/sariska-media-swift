@@ -22,29 +22,32 @@ class ViewController: UIViewController {
 		super.viewDidLoad()
 		self.view.addSubview(videoStackView)
 		
-		let token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjI0ZmQ2ZjkyZDZkMDE3NDkyZTNlOThlMzM0ZWJhZmM3NmRkMzUwYmI5M2EwNzI5ZDM4IiwidHlwIjoiSldUIn0.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiJjZG00b2R6eiIsIm5hbWUiOiJvcHBvc2l0ZV9waW5uaXBlZCJ9LCJncm91cCI6Imc3cWtua205YWJ0cDFuYWd2eXk1ZnUifSwic3ViIjoiMiIsInJvb20iOiI5czdmc3ljeHViIiwiaWF0IjoxNjE5ODMwMTU3LCJuYmYiOjE2MTk4MzAxNTcsImlzcyI6InNhcmlza2EiLCJhdWQiOiJtZWRpYV9tZXNzYWdpbmdfc2FyaXNrYSIsImV4cCI6MTYxOTkxNjU1N30.tRyC5ec5DneQd1E8mU_nNwN8-WnfadNY-HYy8fSZe6ZtG4NDypC0dRngUZFa8zGdxRVzQRri_jPit3ua11zvfkiixDJFJ0q2vlcD72680z03FAS8YrFHpJOgJ0kxZW4NZ0gw_94IvEYXOCqDelP_gEYDQ3qPRhsasEKf6KYD1WL3SsYV70dkhj9evsSdTxUjUBX0Krp1Ou41Q44GGBEuiYwxqZwsFoP6zN9xflrioZ-R8cCV838WHn68k8luUyx2uPWvsFDpGoQ2nnKkqyYt0k5SNzmZq4Wc76iJU5FiMNpR_eqgdO1FqXZG14qSGCEo1RxJrYT9euY5QiIVEmAzjA"
+        let token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjNmYjc1MTJjZjgzYzdkYTRjMjM0Y2QzYWEyYWViOTUzMGNlZmUwMDg1YzRiZjljYzgwY2U5YmQ5YmRiNjA3ZjciLCJ0eXAiOiJKV1QifQ.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiIxMDkzOTEzODEwNDc3NTkzNTI4NTQiLCJhdmF0YXIiOiIjMjkxMTVDIiwibmFtZSI6IkRpcGFrIFNpc29kaXlhIiwiZW1haWwiOiJkaXBhay5zaXNvNUBnbWFpbC5jb20ifSwiZ3JvdXAiOiIxIn0sInN1YiI6InVhdG5jb2U1djcybG5vaGxud2dxdjgiLCJyb29tIjoiKiIsImlhdCI6MTY1NjA2MjUxOSwibmJmIjoxNjU2MDYyNTE5LCJpc3MiOiJzYXJpc2thIiwiYXVkIjoibWVkaWFfbWVzc2FnaW5nX2NvLWJyb3dzaW5nIiwiZXhwIjoxNjU2MjM1MzE5fQ.pI76IdcqGgko5vNJ4JaQfNCOhDK3C9nSr1mYkk6BI-qcibhafSQhh8kLanm8Bm5vT2oG0RntjBC7CBYu0zeAuYsgnh8ZNI1qckdXrd3Fz1Unu9Jg-T6XK_JFJPXSOQI5p7agIzmE_fFle7GkiUkvLgWFRugBTV_MeZZ_YWZ75V0oZPPoFKIYjjHyvm-KxXiedMkXGY7kFoih9TAkf2tTzRB8njAX1X_-EZsqL_wcSUN0zwzLqsVnZK1KLd5_gunZgxe26SGUgXZdB0_SGC-zanVijYmww1qt2AgCnYwpxEi6-n9meYgoHcENEwOsHocESTP3ZOpTvvokixjMLw44QA"
 		
 		
-		SariskaMediaTransport.initializeSdk()
+        SariskaMediaTransport.initializeSdk()
 		
 		setupLocalStream()
 		
-		let connection =  SariskaMediaTransport.JitsiConnection(token: token)
-		
-        connection.addEventListener("CONNECTION_ESTABLISHED") {
-			self.connection = connection
-			self.createConference()
-		}
-		
-        connection.addEventListener("CONNECTION_FAILED") {
-			print("CONNECTION_FAILED")
-		}
-		
-        connection.addEventListener("CONNECTION_DISCONNECTED") {
-			print("CONNECTION_DISCONNECTED")
-		}
-		
-		connection.connect()
+        let connections = SariskaMediaTransport.jitsiConnection(token, roomName: "dipak", isNightly: false)
+        connections.connect();
+
+            //(NSString *) roomName isNightly:  (BOOL)
+
+//        connections.addEventListener("CONNECTION_ESTABLISHED") {
+//            self.connection = connections;
+//			self.createConference()
+//		}
+//
+//        connections.addEventListener("CONNECTION_FAILED") {
+//			print("CONNECTION_FAILED")
+//		}
+//
+//        connections.addEventListener("CONNECTION_DISCONNECTED") {
+//			print("CONNECTION_DISCONNECTED")
+//		}
+//
+//		connections.connect()
 	}
 	
 	func setupLocalStream() {
@@ -64,6 +67,8 @@ class ViewController: UIViewController {
 				}
 			}
 		}
+        
+        
 	}
 	
 	

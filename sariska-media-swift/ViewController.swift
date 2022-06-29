@@ -1,5 +1,6 @@
 import UIKit
 import sariska;
+import OSLog;
 
 class ViewController: UIViewController {
 	
@@ -11,7 +12,7 @@ class ViewController: UIViewController {
 	lazy var videoStackView: UIStackView = {
 		let stackView = UIStackView()
 		stackView.axis = .vertical
-		stackView.spacing = 20.0
+		stackView.spacing = 0.0
 		stackView.distribution = .fill
 		stackView.alignment = .fill
 		stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -22,53 +23,52 @@ class ViewController: UIViewController {
 		super.viewDidLoad()
 		self.view.addSubview(videoStackView)
 		
-        let token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjNmYjc1MTJjZjgzYzdkYTRjMjM0Y2QzYWEyYWViOTUzMGNlZmUwMDg1YzRiZjljYzgwY2U5YmQ5YmRiNjA3ZjciLCJ0eXAiOiJKV1QifQ.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiIxMDkzOTEzODEwNDc3NTkzNTI4NTQiLCJhdmF0YXIiOiIjMjkxMTVDIiwibmFtZSI6IkRpcGFrIFNpc29kaXlhIiwiZW1haWwiOiJkaXBhay5zaXNvNUBnbWFpbC5jb20ifSwiZ3JvdXAiOiIxIn0sInN1YiI6InVhdG5jb2U1djcybG5vaGxud2dxdjgiLCJyb29tIjoiKiIsImlhdCI6MTY1NjA2MjUxOSwibmJmIjoxNjU2MDYyNTE5LCJpc3MiOiJzYXJpc2thIiwiYXVkIjoibWVkaWFfbWVzc2FnaW5nX2NvLWJyb3dzaW5nIiwiZXhwIjoxNjU2MjM1MzE5fQ.pI76IdcqGgko5vNJ4JaQfNCOhDK3C9nSr1mYkk6BI-qcibhafSQhh8kLanm8Bm5vT2oG0RntjBC7CBYu0zeAuYsgnh8ZNI1qckdXrd3Fz1Unu9Jg-T6XK_JFJPXSOQI5p7agIzmE_fFle7GkiUkvLgWFRugBTV_MeZZ_YWZ75V0oZPPoFKIYjjHyvm-KxXiedMkXGY7kFoih9TAkf2tTzRB8njAX1X_-EZsqL_wcSUN0zwzLqsVnZK1KLd5_gunZgxe26SGUgXZdB0_SGC-zanVijYmww1qt2AgCnYwpxEi6-n9meYgoHcENEwOsHocESTP3ZOpTvvokixjMLw44QA"
-		
-		
+        let tokens = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjNmYjc1MTJjZjgzYzdkYTRjMjM0Y2QzYWEyYWViOTUzMGNlZmUwMDg1YzRiZjljYzgwY2U5YmQ5YmRiNjA3ZjciLCJ0eXAiOiJKV1QifQ.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiJ5Y3V1a3dsbyIsImF2YXRhciI6IiNCNkRDRDgiLCJuYW1lIjoiZGlwYWtpb3MifSwiZ3JvdXAiOiIxIn0sInN1YiI6InVhdG5jb2U1djcybG5vaGxud2dxdjgiLCJyb29tIjoiKiIsImlhdCI6MTY1NjM5NzE4MiwibmJmIjoxNjU2Mzk3MTgyLCJpc3MiOiJzYXJpc2thIiwiYXVkIjoibWVkaWFfbWVzc2FnaW5nX2NvLWJyb3dzaW5nIiwiZXhwIjoxNjU2NTY5OTgyfQ.hcWNZSM4Mfmm94h3bIKFN8bYzRFjcbnqFf6HXZM9Ge7n4baj6f43IatdXTW5jWlYU6dO1BHTj0T8h7CCfbmbxz3eWbCgdNb085Y9YSxLvYqf2TTIWHNRvIb0740al63Yb_36Q0ib7Ua2HglP5ox8y19vi2gD_bEb38_Igwax6q2Gn2nN_47GB6FBBwWyLsbDpEG93A64u__ZiSOwZ8xIzpGUeC0_QAh_JGMm0mTyAkLXddr-vzOIi8B_cgh5f_gLaoP-zATHlea7Ew-wEZHVg2tdDJ0KoDfkTlfhdnkU3MECadPsZ9i650HXKqqx8UxGuubMR2C4MQcZtOQGxbJVhA"
+        
         SariskaMediaTransport.initializeSdk()
-		
+        
 		setupLocalStream()
-		
-        let connections = SariskaMediaTransport.jitsiConnection(token, roomName: "dipak", isNightly: false)
-        connections.connect();
-
-            //(NSString *) roomName isNightly:  (BOOL)
-
-//        connections.addEventListener("CONNECTION_ESTABLISHED") {
-//            self.connection = connections;
-//			self.createConference()
-//		}
-//
-//        connections.addEventListener("CONNECTION_FAILED") {
-//			print("CONNECTION_FAILED")
-//		}
-//
-//        connections.addEventListener("CONNECTION_DISCONNECTED") {
-//			print("CONNECTION_DISCONNECTED")
-//		}
-//
-//		connections.connect()
+        
+        self.connection = SariskaMediaTransport.jitsiConnection(tokens, roomName: "dipak", isNightly: false)
+        
+        if(self.connection == nil){
+            os_log("connection is nill")
+        }
+        
+        self.connection?.addEventListener("CONNECTION_ESTABLISHED", callback: {
+            os_log("Inside the first callback")
+            self.createConference()
+        })
+        
+        self.connection?.addEventListener("CONNECTION_FAILED", callback: {
+            os_log("Inside the second callback")
+        })
+        
+        self.connection?.addEventListener("CONNECTION_DISCONNECTED", callback: {
+            os_log("Inside the third callback")
+        })
+        
+        self.connection?.connect()
 	}
 	
 	func setupLocalStream() {
 		var options:[String: Any] = [:]
 		options["audio"] = true
 		options["video"] = true
-		options["resolution"] = 240
-		
+		options["resolution"] = 720
+        os_log("We are in setup local stream")
         SariskaMediaTransport.createLocalTracks(options) { tracks in
-			DispatchQueue.main.async {
-                self.localTracks = tracks as! [JitsiLocalTrack]
-				for track in tracks {
-                    if ((track as AnyObject).getType() == "video")  {
-                        let videoView =  (track as AnyObject).render()
-                        self.attachVideo(videoView:  videoView, trackId: (track as AnyObject).getId())
-					}
-				}
-			}
-		}
-        
-        
+            DispatchQueue.main.async {
+               self.localTracks = tracks as! [JitsiLocalTrack]
+               for track in tracks {
+                   if ((track as AnyObject).getType() == "video")  {
+                       let videoView =  (track as AnyObject).render()
+                       videoView.setMirror(true)
+                       self.attachVideo(videoView:  videoView, trackId: (track as AnyObject).getId())
+                   }
+               }
+           }
+        }
 	}
 	
 	
@@ -79,17 +79,14 @@ class ViewController: UIViewController {
 		}
 		
 		conference = connection.initJitsiConference()
-		guard let conference = conference else {
-			return
-		}
 		
-        conference.addEventListener("CONFERENCE_JOINED") {
+        conference?.addEventListener("CONFERENCE_JOINED") {
 			for track in self.localTracks {
-				conference.addTrack(track: track)
+                self.conference?.addTrack(track: track)
 			}
 		}
 		
-        conference.addEventListener("TRACK_ADDED") { track in
+        conference?.addEventListener("TRACK_ADDED") { track in
 			let track = track as! JitsiRemoteTrack
 			DispatchQueue.main.async {
 				if (track.getType() == "video") {
@@ -99,18 +96,18 @@ class ViewController: UIViewController {
 			}
 		}
 		
-        conference.addEventListener("TRACK_REMOVED") { track in
+        conference?.addEventListener("TRACK_REMOVED") { track in
 			let track = track as! JitsiRemoteTrack
 			DispatchQueue.main.async {
 				self.removeVideo(trackId: track.getId())
 			}
 		}
 		
-        conference.addEventListener("CONFERENCE_LEFT") {
+        conference?.addEventListener("CONFERENCE_LEFT") {
 			print("CONFERENCE_LEFT")
 		}
 		
-		conference.join()
+        conference?.join()
 	}
 	
 	

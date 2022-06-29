@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		180BADBD76E4B67469AFF801 /* Pods_sariska_media_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C5901BBFCE24901C8B85669 /* Pods_sariska_media_swift.framework */; };
-		6AC8A60F2865B978005176F3 /* sariska.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6AC8A60E2865B978005176F3 /* sariska.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6A17ADF2286C617500BF87AC /* sariska.xcframework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6A17ADF1286C617500BF87AC /* sariska.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		802DB3852642D3710025DFB3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802DB3842642D3710025DFB3 /* AppDelegate.swift */; };
 		802DB3872642D3710025DFB3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802DB3862642D3710025DFB3 /* SceneDelegate.swift */; };
 		802DB3892642D3710025DFB3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802DB3882642D3710025DFB3 /* ViewController.swift */; };
@@ -20,11 +20,11 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		6AC8A60D2865B967005176F3 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6AC8A60F2865B978005176F3 /* sariska.xcframework in CopyFiles */,
+				6A17ADF2286C617500BF87AC /* sariska.xcframework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -34,7 +34,8 @@
 		0741908448210B5240F27D02 /* Pods-sariska-media-swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sariska-media-swift.debug.xcconfig"; path = "Target Support Files/Pods-sariska-media-swift/Pods-sariska-media-swift.debug.xcconfig"; sourceTree = "<group>"; };
 		4C5901BBFCE24901C8B85669 /* Pods_sariska_media_swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_sariska_media_swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6657D7897A93604BEF79EAF6 /* Pods-sariska-media-swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sariska-media-swift.release.xcconfig"; path = "Target Support Files/Pods-sariska-media-swift/Pods-sariska-media-swift.release.xcconfig"; sourceTree = "<group>"; };
-		6AC8A60E2865B978005176F3 /* sariska.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = sariska.xcframework; path = "Pods/sariska-media-transport/Frameworks/sariska.xcframework"; sourceTree = "<group>"; };
+		6A17ADF1286C617500BF87AC /* sariska.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = sariska.xcframework; path = "Pods/sariska-media-transport/Frameworks/sariska.xcframework"; sourceTree = "<group>"; };
+		6A4298A9286AE9C0002F7B46 /* sariska.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = sariska.xcframework; path = "Pods/sariska-media-transport/Frameworks/sariska.xcframework"; sourceTree = "<group>"; };
 		802DB3812642D3710025DFB3 /* sariska-media-swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sariska-media-swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		802DB3842642D3710025DFB3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		802DB3862642D3710025DFB3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -68,7 +69,8 @@
 		802DB3782642D3710025DFB3 = {
 			isa = PBXGroup;
 			children = (
-				6AC8A60E2865B978005176F3 /* sariska.xcframework */,
+				6A4298A9286AE9C0002F7B46 /* sariska.xcframework */,
+				6A17ADF1286C617500BF87AC /* sariska.xcframework */,
 				802DB3832642D3710025DFB3 /* sariska-media-swift */,
 				802DB3822642D3710025DFB3 /* Products */,
 				9BCE897EAC65534C98872572 /* Pods */,

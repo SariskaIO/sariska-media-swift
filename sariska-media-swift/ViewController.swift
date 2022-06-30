@@ -41,6 +41,7 @@ class ViewController: UIViewController {
         })
         
         self.connection?.addEventListener("CONNECTION_FAILED", callback: {
+            
             os_log("Inside the second callback")
         })
         
@@ -52,6 +53,7 @@ class ViewController: UIViewController {
 	}
 	
 	func setupLocalStream() {
+        var num = 1;
 		var options:[String: Any] = [:]
 		options["audio"] = true
 		options["video"] = true
@@ -62,6 +64,8 @@ class ViewController: UIViewController {
                self.localTracks = tracks as! [JitsiLocalTrack]
                for track in tracks {
                    if ((track as AnyObject).getType() == "video")  {
+                       os_log("num is : %i",num);
+                       num = num + 1;
                        let videoView =  (track as AnyObject).render()
                        videoView.setMirror(true)
                        self.attachVideo(videoView:  videoView, trackId: (track as AnyObject).getId())
@@ -88,6 +92,9 @@ class ViewController: UIViewController {
 		
         conference?.addEventListener("TRACK_ADDED") { track in
 			let track = track as! JitsiRemoteTrack
+            if(track.getStreamURL() == self.localTracks[1].getStreamURL()){
+                return;
+            }
 			DispatchQueue.main.async {
 				if (track.getType() == "video") {
 					let videoView =  track.render()
@@ -106,8 +113,14 @@ class ViewController: UIViewController {
         conference?.addEventListener("CONFERENCE_LEFT") {
 			print("CONFERENCE_LEFT")
 		}
-		
+        
         conference?.join()
+        
+        var streamOptions:[String: Any] = [:]
+        streamOptions["streamId"] = "vtpv-yt0u-pbc1-1fjp-5ps5"
+        streamOptions["mode"] = "stream"
+        
+        conference?.startRecording(streamOptions)
 	}
 	
 	

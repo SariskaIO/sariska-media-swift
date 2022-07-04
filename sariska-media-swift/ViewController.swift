@@ -12,7 +12,7 @@ class ViewController: UIViewController {
 	lazy var videoStackView: UIStackView = {
 		let stackView = UIStackView()
 		stackView.axis = .vertical
-		stackView.spacing = 0.0
+		stackView.spacing = 0.2
 		stackView.distribution = .fill
 		stackView.alignment = .fill
 		stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -23,7 +23,7 @@ class ViewController: UIViewController {
 		super.viewDidLoad()
 		self.view.addSubview(videoStackView)
 		
-        let tokens = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjNmYjc1MTJjZjgzYzdkYTRjMjM0Y2QzYWEyYWViOTUzMGNlZmUwMDg1YzRiZjljYzgwY2U5YmQ5YmRiNjA3ZjciLCJ0eXAiOiJKV1QifQ.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiJ5Y3V1a3dsbyIsImF2YXRhciI6IiNCNkRDRDgiLCJuYW1lIjoiZGlwYWtpb3MifSwiZ3JvdXAiOiIxIn0sInN1YiI6InVhdG5jb2U1djcybG5vaGxud2dxdjgiLCJyb29tIjoiKiIsImlhdCI6MTY1NjM5NzE4MiwibmJmIjoxNjU2Mzk3MTgyLCJpc3MiOiJzYXJpc2thIiwiYXVkIjoibWVkaWFfbWVzc2FnaW5nX2NvLWJyb3dzaW5nIiwiZXhwIjoxNjU2NTY5OTgyfQ.hcWNZSM4Mfmm94h3bIKFN8bYzRFjcbnqFf6HXZM9Ge7n4baj6f43IatdXTW5jWlYU6dO1BHTj0T8h7CCfbmbxz3eWbCgdNb085Y9YSxLvYqf2TTIWHNRvIb0740al63Yb_36Q0ib7Ua2HglP5ox8y19vi2gD_bEb38_Igwax6q2Gn2nN_47GB6FBBwWyLsbDpEG93A64u__ZiSOwZ8xIzpGUeC0_QAh_JGMm0mTyAkLXddr-vzOIi8B_cgh5f_gLaoP-zATHlea7Ew-wEZHVg2tdDJ0KoDfkTlfhdnkU3MECadPsZ9i650HXKqqx8UxGuubMR2C4MQcZtOQGxbJVhA"
+        let tokens = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjNmYjc1MTJjZjgzYzdkYTRjMjM0Y2QzYWEyYWViOTUzMGNlZmUwMDg1YzRiZjljYzgwY2U5YmQ5YmRiNjA3ZjciLCJ0eXAiOiJKV1QifQ.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiI2YjFmZ2p4dSIsImF2YXRhciI6IiNENEI2NjIiLCJuYW1lIjoiZGlwYWtpb3MifSwiZ3JvdXAiOiIxIn0sInN1YiI6InVhdG5jb2U1djcybG5vaGxud2dxdjgiLCJyb29tIjoiKiIsImlhdCI6MTY1NjkyOTg2NywibmJmIjoxNjU2OTI5ODY3LCJpc3MiOiJzYXJpc2thIiwiYXVkIjoibWVkaWFfbWVzc2FnaW5nX2NvLWJyb3dzaW5nIiwiZXhwIjoxNjU3MTAyNjY3fQ.ilIpGM7Z7IrZAitLVyXbE5eUBqHbGlMD0hewvDxpySydlwTKE5H8qRe62P-QxZeC46eYsBBQmcjM_nA03XBfxHN_JnFo5LVpBDjZhVlrULxftp241-XUj4STGXFBVR8CE8fBKPmJaEp1H9x9GFijELZ7y3WYBiNAJoaPODjNZ--O4RxlhDdil5XEX6UNMa_xf6gaR4KvXDgHoeZJE4DeCbLm0EJbtDkMCo2-L47O_c8TKWaPdPSI6lMnjuNiekn7kymnlwSuwlzb2-Efwrf6HJRYbbZPtLMMx9qWfNUFFxUxMpAAC9F0JKQpfdVxsaxMS8mdjO8r18xzY8ukmAhBOw"
         
         SariskaMediaTransport.initializeSdk()
         
@@ -53,7 +53,6 @@ class ViewController: UIViewController {
 	}
 	
 	func setupLocalStream() {
-        var num = 1;
 		var options:[String: Any] = [:]
 		options["audio"] = true
 		options["video"] = true
@@ -64,8 +63,6 @@ class ViewController: UIViewController {
                self.localTracks = tracks as! [JitsiLocalTrack]
                for track in tracks {
                    if ((track as AnyObject).getType() == "video")  {
-                       os_log("num is : %i",num);
-                       num = num + 1;
                        let videoView =  (track as AnyObject).render()
                        videoView.setMirror(true)
                        self.attachVideo(videoView:  videoView, trackId: (track as AnyObject).getId())

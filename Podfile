@@ -2,8 +2,9 @@ platform :ios, '11.0'
 
 target 'sariska-media-swift' do
 	  use_frameworks!
-      
+
     pod 'sariska-media-transport', :git => 'https://github.com/SariskaIO/sariska-ios-sdk-releases.git', :branch => 'ios'
+    
     post_install do |installer|
         installer.pods_project.targets.each do |target|
             target.build_configurations.each do |config|
@@ -11,4 +12,6 @@ target 'sariska-media-swift' do
             end
         end
     end
+    
+    pod 'SwiftyJSON'
 end

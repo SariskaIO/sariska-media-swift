@@ -1,6 +1,7 @@
 import UIKit
 import sariska;
 import OSLog;
+import Foundation;
 
 class ViewController: UIViewController {
 	
@@ -8,7 +9,9 @@ class ViewController: UIViewController {
 	var conference: Conference? = nil
 	var stackView: UIStackView? = nil
 	var localTracks: [JitsiLocalTrack] = []
-	
+    var token: String? = nil
+
+    
 	lazy var videoStackView: UIStackView = {
 		let stackView = UIStackView()
 		stackView.axis = .vertical
@@ -18,39 +21,45 @@ class ViewController: UIViewController {
 		stackView.translatesAutoresizingMaskIntoConstraints = false
 		return stackView
 	}()
-	
+    
 	override func viewDidLoad() {
-		super.viewDidLoad()
-		self.view.addSubview(videoStackView)
 		
-
-        let tokens = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImRkMzc3ZDRjNTBiMDY1ODRmMGY4MDJhYmFiNTIyMjg5ODJiMTk2YzAzNzYwNzE4NDhiNWJlNTczN2JiMWYwYTUiLCJ0eXAiOiJKV1QifQ.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiIxMjM0NSIsIm5hbWUiOiJKb2huIFNtaXRoIiwiZW1haWwiOiJleGFtcGxlQGVtYWlsLmNvbSIsIm1vZGVyYXRvciI6dHJ1ZX0sImdyb3VwIjoiMjAyIn0sInN1YiI6InF3ZnNkNTdwcTlkeGFrcXF1cTZzZXEiLCJyb29tIjoiKiIsImlhdCI6MTY3MjkzNDk0NSwibmJmIjoxNjcyOTM0OTQ1LCJpc3MiOiJzYXJpc2thIiwiYXVkIjoibWVkaWFfbWVzc2FnaW5nX2NvLWJyb3dzaW5nIiwiZXhwIjoxNjczMDIxMzQ1fQ.iIuCLng0bA8ILS_ajl2TCVPYTqAvsty66EBYc7Y_M6ZadrddsEsOvsopJtQlyK-Ikcx_Op2XLCpnoRhmzx03KYc_P0x95nKIU25xzFVpPwZ12dPZQsaMYKC1XOCzVQJSsPhOY3NmB0zFu_79LtSp0bLw-wbNw9JrCjGhcmRC-gRwQI9QatJkAj8ApW7S28Akm7WpF9tXWRcSj3klGZL8V00ExOLfdk4uRDvL3ER6-41KVX5Mf2AWFGiRh7vyqUOWH6pRnslPTVV8dWkmoxL1hr1lQPQVLW72jou2nIpJRyfBB-hAA7qTfvjhosWv4QhTazkUp2lLyS-SCVuGd04RWA"
+        super.viewDidLoad()
         
-        SariskaMediaTransport.initializeSdk()
-        
-		setupLocalStream()
-        
-        self.connection = SariskaMediaTransport.jitsiConnection(tokens, roomName: "dipak", isNightly: false)
-        
-        if(self.connection == nil){
-            os_log("connection is nill")
+		self.view.addSubview(videoStackView)
+    
+        func getToken(){
+            DispatchQueue.main.async {
+                let tokenReq = tokenRequest()
+                
+                tokenReq.getToken{[weak self] result in
+                                    switch result{
+                                    case .failure(let error):
+                                        print(error)
+                                    case .success(let token2):
+                                        SariskaMediaTransport.initializeSdk()
+                                        
+                                        self?.setupLocalStream()
+                                        
+                                        self?.connection = SariskaMediaTransport.jitsiConnection(token2, roomName: "dipak", isNightly: false)
+                                        
+                                        self?.connection?.addEventListener("CONNECTION_ESTABLISHED", callback: {
+                                            self?.createConference()
+                                        })
+                                        
+                                        self?.connection?.addEventListener("CONNECTION_FAILED", callback: {
+                                        })
+                                        
+                                        self?.connection?.addEventListener("CONNECTION_DISCONNECTED", callback: {
+                                        })
+                                        
+                                        self?.connection?.connect()
+                                    }
+                    }
+            }
         }
         
-        self.connection?.addEventListener("CONNECTION_ESTABLISHED", callback: {
-            os_log("Inside the first callback")
-            self.createConference()
-        })
-        
-        self.connection?.addEventListener("CONNECTION_FAILED", callback: {
-            
-            os_log("Inside the second callback")
-        })
-        
-        self.connection?.addEventListener("CONNECTION_DISCONNECTED", callback: {
-            os_log("Inside the third callback")
-        })
-        
-        self.connection?.connect()
+        getToken()
 	}
 	
 	func setupLocalStream() {
@@ -58,7 +67,6 @@ class ViewController: UIViewController {
 		options["audio"] = true
 		options["video"] = true
 		options["resolution"] = 240
-        os_log("We are in setup local stream")
         SariskaMediaTransport.createLocalTracks(options) { tracks in
                     DispatchQueue.main.async {
                         self.localTracks = tracks as! [JitsiLocalTrack]
@@ -112,13 +120,8 @@ class ViewController: UIViewController {
 		}
         
         conference?.join()
-        
-        var streamOptions:[String: Any] = [:]
-        streamOptions["streamId"] = "vtpv-yt0u-pbc1-1fjp-5ps5"
-        streamOptions["mode"] = "stream"
-        
-        conference?.startRecording(streamOptions)
-	}
+    
+    }
 	
 	
 	

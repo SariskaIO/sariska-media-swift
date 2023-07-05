@@ -112,12 +112,6 @@ class ViewController: UIViewController {
 		}
 
 		conference?.join()
-
-		var streamOptions:[String: Any] = [:]
-		streamOptions["streamId"] = "vtpv-yt0u-pbc1-1fjp-5ps5"
-		streamOptions["mode"] = "stream"
-
-		conference?.startRecording(streamOptions)
 	}
 
 

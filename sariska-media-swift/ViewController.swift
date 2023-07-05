@@ -65,7 +65,7 @@ class ViewController: UIViewController {
 				for track in self.localTracks {
 					if (track.getType() == "video")  {
 						let videoView =  track.render()
-						self.attachVideo(videoView:  videoView, trackId: (track as AnyObject).getId())
+						self.attachLocalVideo(videoView:  videoView, trackId: (track as AnyObject).getId())
 					}
 				}
 			}
@@ -133,12 +133,52 @@ class ViewController: UIViewController {
 		}
 	}
 
-	func attachVideo(videoView: RTCVideoView, trackId: String){
+	func attachLocalVideo(videoView: RTCVideoView, trackId: String){
 		videoView.setObjectFit("cover")
 		videoView.accessibilityLabel = trackId
-		videoView.heightAnchor.constraint(equalToConstant: 240).isActive = true
-		videoView.widthAnchor.constraint(equalToConstant: 360).isActive = true
-		self.videoStackView.addArrangedSubview(videoView)
+		videoView.translatesAutoresizingMaskIntoConstraints = false
+		self.view.addSubview(videoView)
+
+		// Set video view constraints
+		NSLayoutConstraint.activate([
+			videoView.topAnchor.constraint(equalTo: self.view.topAnchor),
+			videoView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+			videoView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+			videoView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+		])
+
+		self.view.layoutIfNeeded()
+	}
+
+	func attachVideo(videoView: RTCVideoView, trackId: String) {
+		videoView.setObjectFit("cover")
+		videoView.accessibilityLabel = trackId
+		videoView.translatesAutoresizingMaskIntoConstraints = false
+
+		// Create a container view for the video view
+		let containerView = UIView()
+		containerView.translatesAutoresizingMaskIntoConstraints = false
+		self.view.addSubview(containerView)
+
+		// Set container view constraints
+		NSLayoutConstraint.activate([
+			containerView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20),
+			containerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+			containerView.widthAnchor.constraint(equalToConstant: 120),
+			containerView.heightAnchor.constraint(equalToConstant: 90)
+		])
+
+		// Add the video view to the container view
+		containerView.addSubview(videoView)
+
+		// Set video view constraints within the container view
+		NSLayoutConstraint.activate([
+			videoView.topAnchor.constraint(equalTo: containerView.topAnchor),
+			videoView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+			videoView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+			videoView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+		])
+
 		self.view.layoutIfNeeded()
 	}
 

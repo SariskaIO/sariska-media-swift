@@ -2,16 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3420c940-d1a2-463f-ae64-2bc390d0bc67" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Sariska-Demo-iOS.xcodeproj/xcuserdata/dipaksisodiya.xcuserdatad/xcschemes/xcschememanagement.plist" beforeDir="false" afterPath="$PROJECT_DIR$/Sariska-Demo-iOS.xcodeproj/xcuserdata/dipaksisodiya.xcuserdatad/xcschemes/xcschememanagement.plist" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sariska-Demo-iOS.xcworkspace/xcuserdata/dipaksisodiya.xcuserdatad/xcschemes/xcschememanagement.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/xcode.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/xcode.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/dipaksisodiya.xcuserdatad/xcschemes/xcschememanagement.plist" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Pods.xcodeproj/xcuserdata/dipaksisodiya.xcuserdatad/xcschemes/xcschememanagement.plist" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sariska-Demo-iOS/ContentView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Sariska-Demo-iOS/ContentView.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sariska-Demo-iOS/Sariska_Demo_iOSApp.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Sariska-Demo-iOS/Sariska_Demo_iOSApp.swift" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="iphonesimulator_F4BD55E6-787A-430D-9B0B-C91611157E83" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos_00008101-001414460C28801E" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -32,7 +37,10 @@
     "RunOnceActivity.cidr.known.project.marker": "true",
     "WebServerToolWindowFactoryState": "false",
     "cidr.known.project.marker": "true",
-    "last_opened_file_path": "/Users/dipaksisodiya/Desktop/sariska/Sariska-Demo-iOS"
+    "git-widget-placeholder": "feature/newUI",
+    "last_opened_file_path": "/Users/dipaksisodiya/Desktop/sariska/Sariska-Demo-iOS",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settings.ide.settings.new.ui"
   }
 }]]></component>
   <component name="RunManager">
@@ -55,6 +63,9 @@
       <option name="presentableId" value="Default" />
       <updated>1688632274885</updated>
       <workItem from="1688632275891" duration="308000" />
+      <workItem from="1688639458123" duration="241000" />
+      <workItem from="1688639705997" duration="85000" />
+      <workItem from="1688639802017" duration="1007000" />
     </task>
     <servers />
   </component>

@@ -1,0 +1,3 @@
+${PODS_ROOT}/Target Support Files/sariska-media-transport/sariska-media-transport-xcframeworks.sh
+${PODS_ROOT}/sariska-media-transport/Frameworks/sariska.xcframework
+${PODS_ROOT}/sariska-media-transport/Frameworks/WebRTC.xcframework

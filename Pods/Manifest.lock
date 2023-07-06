@@ -1,0 +1,29 @@
+PODS:
+  - sariska-media-transport (1.1.4)
+  - SwiftyJSON (5.0.1)
+
+DEPENDENCIES:
+  - sariska-media-transport (from `https://github.com/SariskaIO/sariska-ios-sdk-releases.git`, branch `ios`)
+  - SwiftyJSON
+
+SPEC REPOS:
+  trunk:
+    - SwiftyJSON
+
+EXTERNAL SOURCES:
+  sariska-media-transport:
+    :branch: ios
+    :git: https://github.com/SariskaIO/sariska-ios-sdk-releases.git
+
+CHECKOUT OPTIONS:
+  sariska-media-transport:
+    :commit: 04d576a3b708dc6d8b1f2b0838d951856831429f
+    :git: https://github.com/SariskaIO/sariska-ios-sdk-releases.git
+
+SPEC CHECKSUMS:
+  sariska-media-transport: 9b5fe78ab61ab12c2c11b43f62c77908b201003b
+  SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
+
+PODFILE CHECKSUM: 5fea6557170bbd904600cc59c4b429194d99c0d9
+
+COCOAPODS: 1.12.1

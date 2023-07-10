@@ -45,7 +45,7 @@ struct ContentView: View {
     SariskaMediaTransport.initializeSdk()
     setupLocalStream()
 
-    var token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImRkMzc3ZDRjNTBiMDY1ODRmMGY4MDJhYmFiNTIyMjg5ODJiMTk2YzAzNzYwNzE4NDhiNWJlNTczN2JiMWYwYTUiLCJ0eXAiOiJKV1QifQ.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiJoc3QxbHVlYSIsIm5hbWUiOiJlZmZpY2llbnRfc3dhbiJ9LCJncm91cCI6IjIwMiJ9LCJzdWIiOiJxd2ZzZDU3cHE5ZHhha3FxdXE2c2VxIiwicm9vbSI6IioiLCJpYXQiOjE2ODg2NDAxMTIsIm5iZiI6MTY4ODY0MDExMiwiaXNzIjoic2FyaXNrYSIsImF1ZCI6Im1lZGlhX21lc3NhZ2luZ19jby1icm93c2luZyIsImV4cCI6MTY4ODcyNjUxMn0.uK6tnIDhd3ZzpIqffh79DiAMYD9KpAgDxRGg6-4ffrH7Ur4vGRvSvwAWq_EgmgO7yhLWwnKmHL6JvAui0rOTL-XgvvLsEIvXbk8alpdlCQNJ1WFx2sN30xoDaHnc231dvRyixuYXBn4-L_vny_NGmlNAWbsbyDp918BG-nZZnQrl6NqhdP25KIogeKzZe9zdwEbUpN-EIWwL2VOpnXCBcnOJPf7Be8-4sGAut1_JJDtiCmeJgK6ms0DqrJIX01EAFIR1LKmPLys-fXF9BJOaoderGhb6GoRdS1_D1M2N6O1p35GKyFWDoMSmWEXQh_5aNzwLpalQbSTQ9zG7nQwouQ";
+    var token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImRkMzc3ZDRjNTBiMDY1ODRmMGY4MDJhYmFiNTIyMjg5ODJiMTk2YzAzNzYwNzE4NDhiNWJlNTczN2JiMWYwYTUiLCJ0eXAiOiJKV1QifQ.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiJqdmd5MXNlbiIsIm5hbWUiOiJjcmltaW5hbF9tb25nb29zZSJ9LCJncm91cCI6IjIwMiJ9LCJzdWIiOiJxd2ZzZDU3cHE5ZHhha3FxdXE2c2VxIiwicm9vbSI6IioiLCJpYXQiOjE2ODkwMDIzMTIsIm5iZiI6MTY4OTAwMjMxMiwiaXNzIjoic2FyaXNrYSIsImF1ZCI6Im1lZGlhX21lc3NhZ2luZ19jby1icm93c2luZyIsImV4cCI6MTY4OTA4ODcxMn0.eiZ1QI84ImsOQQetQics3gmvABxusabiE0OFiJxTED7z_WD0zcGk8WsIz377HJI5Dfnx1WBuMsRMTCcd3RJ6nOW7IA-qLmCDZ_ZNMbjCqQ3TAwQvPNO6A81HUIPEPkGDaqJQWGwsLWWWcArYJJuGhNwFxClNs0Qs03JgkndRfNrIBzM9GbmixdoukOWbwKauPPjkWWLXZaWTulyCcdGgPXovTFbcXlXePaAjLgvLmF7nUSSWTES22NIWetN5-y4nI7WojOWfMDKZXtCV5u-drCtdmav0Do7eoM-nfkKpvTcTzhrg7XM9UV71xrrgDoNM2xnLTGpPcyPxvBPc1ghlAQ";
 
     self.connection = SariskaMediaTransport.jitsiConnection(token, roomName: "dasdsad", isNightly: false)
 
@@ -73,12 +73,18 @@ struct ContentView: View {
     }
 
     conference?.addEventListener("TRACK_ADDED") { track in
-      // TODO
+      DispatchQueue.main.async {
+        let remoteTrack = track as! JitsiRemoteTrack
+        if(remoteTrack.getType() == "video"){
+          self.videoView = remoteTrack.render()
+        }
+      }
     }
 
-//    conference?.addEventListener("TRACK_REMOVED") { track in
-//      // TODO
-//    }
+    conference?.addEventListener("USER_LEFT") {
+      id, user in
+        print("User left")
+    }
 
     conference?.addEventListener("CONFERENCE_LEFT") {
       // TODO
@@ -100,7 +106,7 @@ struct ContentView: View {
             for track in self.localTracks {
               if track.getType() == "video" {
                 let videoView = track.render()
-                self.videoView = videoView
+                //self.videoView = videoView
               }
             }
           }
@@ -111,15 +117,21 @@ struct ContentView: View {
     return HStack {
 
       Button(action: {
-        // Switch camera button action
+        if(isAudioMuted){
+          localTracks[0].unmute()
+        }else{
+          localTracks[0].mute()
+        }
+        isAudioMuted.toggle()
       }) {
-        Image(systemName: "camera.rotate")
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .frame(width: 30, height: 30)
+        Image(systemName: isAudioMuted ? "mic.slash.fill" : "mic.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 30, height: 30)
       }
 
       Spacer()
+
 
       Button(action: {
         // End call button action
@@ -129,25 +141,18 @@ struct ContentView: View {
         Image(systemName: "phone.down.fill")
           .resizable()
           .aspectRatio(contentMode: .fit)
-          .frame(width: 30, height: 30)
+          .frame(width: 60, height: 60)
           .foregroundColor(.red)
-
       }
 
       Spacer()
 
       Button(action: {
-        isAudioMuted.toggle()
-      }) {
-        Image(systemName: isAudioMuted ? "mic.slash.fill" : "mic.fill")
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .frame(width: 30, height: 30)
-      }
-
-      Spacer()
-
-      Button(action: {
+        if(isVideoMuted){
+          localTracks[1].unmute()
+        }else{
+          localTracks[1].mute()
+        }
         isVideoMuted.toggle()
       }) {
         Image(systemName: isVideoMuted ? "video.slash.fill" : "video.fill")

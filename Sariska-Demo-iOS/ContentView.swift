@@ -15,18 +15,28 @@ struct ContentView: View {
                 Color.white
                     .frame(height: 700)  // Adjust the height as per your layout
                     .cornerRadius(10)
+
                 if !viewModel.isViewHidden {
                     if let view = viewModel.videoView {
                         UIViewWrapper(view: view)
                     }
                 }
+
+                if !viewModel.isViewHidden {
+                    VStack{
+                        if let view = viewModel.videoView {
+                            UIViewWrapper(view: view)
+                        }
+
+                        if let view = viewModel.remoteVideoView {
+                            UIViewWrapper(view: view)
+                        }
+                    }
+                }
             }
             VideoCallButtonsView(viewModel: viewModel)
         }
-        .onChange(of: viewModel.videoView) { newValue in
-            // React to changes in videoView and update the view
-            viewModel.isViewHidden = newValue == nil ? true : false
-        }
+
     }
 }
 
@@ -51,8 +61,10 @@ struct UIViewWrapper: UIViewRepresentable {
 class ContentViewModel: ObservableObject {
     @Published var isAudioMuted = false
     @Published var isVideoMuted = false
-    @Published var isViewHidden = false
+    @Published var isViewHidden = true
+    @Published var isRemoteViewHidden = true
     @Published var videoView: UIView? = nil
+    @Published var remoteVideoView: UIView? = nil
     @Published var connection: Connection? = nil
     @Published var localTracks: [JitsiLocalTrack] = []
     @Published var conference: Conference? = nil
@@ -96,13 +108,25 @@ class ContentViewModel: ObservableObject {
             }
         }
 
+        conference?.addEventListener("CONFERENCE_FAILED"){
+        }
+
         conference?.addEventListener("TRACK_ADDED") { track in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [self] in
                 guard let remoteTrack = track as? JitsiRemoteTrack else {
                     return
                 }
-                if remoteTrack.getType() == "video" {
-                    //self.videoView = remoteTrack.render()
+                print("Type of video: " + remoteTrack.getType())
+                if(remoteTrack.getStreamURL() == localTracks[0].getStreamURL()){
+                    print("returning")
+                    return
+                }else if (remoteTrack.getStreamURL() == localTracks[1].getStreamURL()){
+                    print("returning video")
+                    return
+                }
+                if(remoteTrack.getType().elementsEqual("video") ){
+                    self.remoteVideoView = remoteTrack.render()
+                    self.isRemoteViewHidden.toggle()
                 }
             }
         }
@@ -112,7 +136,6 @@ class ContentViewModel: ObservableObject {
         }
 
         conference?.addEventListener("CONFERENCE_LEFT") { [self] in
-            // TODO
             callStarted = false
         }
 
@@ -132,6 +155,7 @@ class ContentViewModel: ObservableObject {
                     if track.getType() == "video" {
                         let sdasd = track.render()
                         self.videoView = sdasd
+                        self.isViewHidden.toggle()
                     }
                 }
             }

@@ -9,29 +9,33 @@ import sariska
 struct ContentView: View {
     @StateObject private var viewModel: ContentViewModel = ContentViewModel()
 
+
     var body: some View {
         VStack {
             ZStack {
                 Color.white
-                    .frame(height: 700)  // Adjust the height as per your layout
+                    .frame(height: 720)  // Adjust the height as per your layout
                     .cornerRadius(10)
 
-                if !viewModel.isViewHidden {
+                if !viewModel.isOnlyLocalView {
                     if let view = viewModel.videoView {
                         UIViewWrapper(view: view)
                     }
                 }
 
-                if !viewModel.isViewHidden {
-                    VStack{
-                        if let view = viewModel.videoView {
-                            UIViewWrapper(view: view)
-                        }
-
-                        if let view = viewModel.remoteVideoView {
-                            UIViewWrapper(view: view)
+                ScrollView(.horizontal) {
+                    LazyHGrid(rows: [GridItem(.flexible())], spacing: 16) {
+                        ForEach(viewModel.remoteViews, id: \.self) { item in
+                            Rectangle()
+                                    .foregroundColor(.green)
+                                    .frame(width: 100, height: 100)
+                                    .overlay(
+                                            UIViewWrapper(view: item)
+                                    )
+                                    .cornerRadius(10)
                         }
                     }
+                            .padding()
                 }
             }
             VideoCallButtonsView(viewModel: viewModel)
@@ -61,7 +65,7 @@ struct UIViewWrapper: UIViewRepresentable {
 class ContentViewModel: ObservableObject {
     @Published var isAudioMuted = false
     @Published var isVideoMuted = false
-    @Published var isViewHidden = true
+    @Published var isOnlyLocalView = true
     @Published var isRemoteViewHidden = true
     @Published var videoView: UIView? = nil
     @Published var remoteVideoView: UIView? = nil
@@ -69,6 +73,7 @@ class ContentViewModel: ObservableObject {
     @Published var localTracks: [JitsiLocalTrack] = []
     @Published var conference: Conference? = nil
     @Published var callStarted = false
+    @Published var remoteViews: [RTCVideoView] = []
 
     init() {
         initializeSdk()
@@ -79,7 +84,7 @@ class ContentViewModel: ObservableObject {
         setupLocalStream()
 
         let token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImRkMzc3ZDRjNTBiMDY1ODRmMGY4MDJhYmFiNTIyMjg5ODJiMTk2YzAzNzYwNzE4NDhiNWJlNTczN2JiMWYwYTUiLCJ0eXAiOiJKV1QifQ.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiJqdmd5MXNlbiIsIm5hbWUiOiJjcmltaW5hbF9tb25nb29zZSJ9LCJncm91cCI6IjIwMiJ9LCJzdWIiOiJxd2ZzZDU3cHE5ZHhha3FxdXE2c2VxIiwicm9vbSI6IioiLCJpYXQiOjE2ODkwMDIzMTIsIm5iZiI6MTY4OTAwMjMxMiwiaXNzIjoic2FyaXNrYSIsImF1ZCI6Im1lZGlhX21lc3NhZ2luZ19jby1icm93c2luZyIsImV4cCI6MTY4OTA4ODcxMn0.eiZ1QI84ImsOQQetQics3gmvABxusabiE0OFiJxTED7z_WD0zcGk8WsIz377HJI5Dfnx1WBuMsRMTCcd3RJ6nOW7IA-qLmCDZ_ZNMbjCqQ3TAwQvPNO6A81HUIPEPkGDaqJQWGwsLWWWcArYJJuGhNwFxClNs0Qs03JgkndRfNrIBzM9GbmixdoukOWbwKauPPjkWWLXZaWTulyCcdGgPXovTFbcXlXePaAjLgvLmF7nUSSWTES22NIWetN5-y4nI7WojOWfMDKZXtCV5u-drCtdmav0Do7eoM-nfkKpvTcTzhrg7XM9UV71xrrgDoNM2xnLTGpPcyPxvBPc1ghlAQ"
-        connection = SariskaMediaTransport.jitsiConnection(token, roomName: "dasdsad", isNightly: false)
+        connection = SariskaMediaTransport.jitsiConnection(token, roomName: "dipak", isNightly: false)
 
         connection?.addEventListener("CONNECTION_ESTABLISHED") {
             self.createConference()
@@ -125,14 +130,14 @@ class ContentViewModel: ObservableObject {
                     return
                 }
                 if(remoteTrack.getType().elementsEqual("video") ){
-                    self.remoteVideoView = remoteTrack.render()
-                    self.isRemoteViewHidden.toggle()
+                    self.remoteViews.append(remoteTrack.render())
                 }
             }
         }
 
         conference?.addEventListener("USER_LEFT") { _, _ in
             print("User left")
+            self.remoteViews.removeAll()
         }
 
         conference?.addEventListener("CONFERENCE_LEFT") { [self] in
@@ -155,7 +160,7 @@ class ContentViewModel: ObservableObject {
                     if track.getType() == "video" {
                         let sdasd = track.render()
                         self.videoView = sdasd
-                        self.isViewHidden.toggle()
+                        self.isOnlyLocalView.toggle()
                     }
                 }
             }
@@ -186,7 +191,7 @@ struct VideoCallButtonsView: View {
 
             Button(action: {
                 // End call button action
-                viewModel.isViewHidden.toggle()
+                viewModel.isOnlyLocalView.toggle()
                 if(viewModel.callStarted){
                     viewModel.conference?.leave()
                     viewModel.connection?.disconnect()

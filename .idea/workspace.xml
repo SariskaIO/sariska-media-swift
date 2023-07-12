@@ -59,37 +59,14 @@
       <workItem from="1688639802017" duration="1007000" />
       <workItem from="1689001828417" duration="385000" />
       <workItem from="1689002217900" duration="1209000" />
-      <workItem from="1689004001739" duration="3366000" />
+      <workItem from="1689004001739" duration="7317000" />
+      <workItem from="1689057720248" duration="293000" />
+      <workItem from="1689058273531" duration="5259000" />
+      <workItem from="1689144484701" duration="3317000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Sariska-Demo-iOS/ContentView.swift</url>
-          <line>141</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Sariska-Demo-iOS/ContentView.swift</url>
-          <line>46</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Sariska-Demo-iOS/ContentView.swift</url>
-          <line>18</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Sariska-Demo-iOS/ContentView.swift</url>
-          <line>19</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

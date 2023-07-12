@@ -27,8 +27,8 @@ struct ContentView: View {
                     LazyHGrid(rows: [GridItem(.flexible())], spacing: 16) {
                         ForEach(viewModel.remoteViews, id: \.self) { item in
                             Rectangle()
-                                    .foregroundColor(.green)
-                                    .frame(width: 100, height: 100)
+                                    .foregroundColor(.none)
+                                    .frame(width: 150, height: 150)
                                     .overlay(
                                             UIViewWrapper(view: item)
                                     )
@@ -74,6 +74,8 @@ class ContentViewModel: ObservableObject {
     @Published var conference: Conference? = nil
     @Published var callStarted = false
     @Published var remoteViews: [RTCVideoView] = []
+    @Published var participantViews: [String: Int] = [:]
+    @Published var numberOfParticipants = 0
 
     init() {
         initializeSdk()
@@ -83,7 +85,8 @@ class ContentViewModel: ObservableObject {
         SariskaMediaTransport.initializeSdk()
         setupLocalStream()
 
-        let token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImRkMzc3ZDRjNTBiMDY1ODRmMGY4MDJhYmFiNTIyMjg5ODJiMTk2YzAzNzYwNzE4NDhiNWJlNTczN2JiMWYwYTUiLCJ0eXAiOiJKV1QifQ.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiJqdmd5MXNlbiIsIm5hbWUiOiJjcmltaW5hbF9tb25nb29zZSJ9LCJncm91cCI6IjIwMiJ9LCJzdWIiOiJxd2ZzZDU3cHE5ZHhha3FxdXE2c2VxIiwicm9vbSI6IioiLCJpYXQiOjE2ODkwMDIzMTIsIm5iZiI6MTY4OTAwMjMxMiwiaXNzIjoic2FyaXNrYSIsImF1ZCI6Im1lZGlhX21lc3NhZ2luZ19jby1icm93c2luZyIsImV4cCI6MTY4OTA4ODcxMn0.eiZ1QI84ImsOQQetQics3gmvABxusabiE0OFiJxTED7z_WD0zcGk8WsIz377HJI5Dfnx1WBuMsRMTCcd3RJ6nOW7IA-qLmCDZ_ZNMbjCqQ3TAwQvPNO6A81HUIPEPkGDaqJQWGwsLWWWcArYJJuGhNwFxClNs0Qs03JgkndRfNrIBzM9GbmixdoukOWbwKauPPjkWWLXZaWTulyCcdGgPXovTFbcXlXePaAjLgvLmF7nUSSWTES22NIWetN5-y4nI7WojOWfMDKZXtCV5u-drCtdmav0Do7eoM-nfkKpvTcTzhrg7XM9UV71xrrgDoNM2xnLTGpPcyPxvBPc1ghlAQ"
+        let token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImRkMzc3ZDRjNTBiMDY1ODRmMGY4MDJhYmFiNTIyMjg5ODJiMTk2YzAzNzYwNzE4NDhiNWJlNTczN2JiMWYwYTUiLCJ0eXAiOiJKV1QifQ.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiJhMnNvODBsYSIsIm5hbWUiOiJwYXJ0aWFsX2dyb3VzZSJ9LCJncm91cCI6IjIwMiJ9LCJzdWIiOiJxd2ZzZDU3cHE5ZHhha3FxdXE2c2VxIiwicm9vbSI6IioiLCJpYXQiOjE2ODkxNDQ1NTgsIm5iZiI6MTY4OTE0NDU1OCwiaXNzIjoic2FyaXNrYSIsImF1ZCI6Im1lZGlhX21lc3NhZ2luZ19jby1icm93c2luZyIsImV4cCI6MTY4OTIzMDk1OH0.l2xw2-uTkQ2NSq-KDTORg0iUfC_LEkQMIKKaVwGj7X0GBpXmzhcIpIzNZzQs3XemRo4Czcxulxb4KVPlx_KKa1tnkaXietuZOhNBWHQtkxlFg3UR5nNM9BnIcU9mv7zvsGYmvsOstjARiQs82ZXimXcQs5WV9drVVTGw9XpkeRMhdTqQWauXeoOJqYsiIENwDT_TwJ7YXKcFlg6m9AEqDi04cHClxptbtaY-qHdOEh0M0peTekr5uKn4Tc5-CyN5arYIG3_cEy93pqfFEnlMUbAZ2tse1Svk_sNpJlyyjwstUGh3EpVdsEwLFxs8vL2_tcXxQDpHh6_Sm8FBUoVe5w"
+
         connection = SariskaMediaTransport.jitsiConnection(token, roomName: "dipak", isNightly: false)
 
         connection?.addEventListener("CONNECTION_ESTABLISHED") {
@@ -121,23 +124,28 @@ class ContentViewModel: ObservableObject {
                 guard let remoteTrack = track as? JitsiRemoteTrack else {
                     return
                 }
-                print("Type of video: " + remoteTrack.getType())
-                if(remoteTrack.getStreamURL() == localTracks[0].getStreamURL()){
+                if(remoteTrack.getStreamURL() == localTracks[0].getStreamURL() || remoteTrack.getStreamURL() == localTracks[1].getStreamURL()){
                     print("returning")
-                    return
-                }else if (remoteTrack.getStreamURL() == localTracks[1].getStreamURL()){
-                    print("returning video")
                     return
                 }
                 if(remoteTrack.getType().elementsEqual("video") ){
+                    let rtcRemoteView = remoteTrack.render()
+                    numberOfParticipants = numberOfParticipants+1
+                    participantViews[remoteTrack.getParticipantId()] = numberOfParticipants
+                    rtcRemoteView.tag = numberOfParticipants
                     self.remoteViews.append(remoteTrack.render())
                 }
             }
         }
 
-        conference?.addEventListener("USER_LEFT") { _, _ in
+        conference?.addEventListener("USER_LEFT") { id, participant in
             print("User left")
-            self.remoteViews.removeAll()
+            print(id)
+            print(participant)
+            let leavingParticipant = participant as! Participant
+            DispatchQueue.main.async { [self] in
+                remoteViews.removeAll()
+            }
         }
 
         conference?.addEventListener("CONFERENCE_LEFT") { [self] in

@@ -30,12 +30,13 @@ struct ContentView: View {
                                     .foregroundColor(.none)
                                     .frame(width: 150, height: 150)
                                     .overlay(
-                                            UIViewWrapper(view: item)
+                                            UIViewWrapper(view: item), alignment: .bottom
                                     )
                                     .cornerRadius(10)
                         }
-                    }
+                    } .offset(y: 200)
                             .padding()
+
                 }
             }
             VideoCallButtonsView(viewModel: viewModel)

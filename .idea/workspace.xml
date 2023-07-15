@@ -7,7 +7,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos_00008101-001414460C28801E" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos_" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -62,7 +62,7 @@
       <workItem from="1689004001739" duration="7317000" />
       <workItem from="1689057720248" duration="293000" />
       <workItem from="1689058273531" duration="5259000" />
-      <workItem from="1689144484701" duration="3317000" />
+      <workItem from="1689144484701" duration="4666000" />
     </task>
     <servers />
   </component>

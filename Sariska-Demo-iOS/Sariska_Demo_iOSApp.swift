@@ -11,7 +11,7 @@ import sariska
 struct Sariska_Demo_iOSApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LoginView()
         }
     }
 }

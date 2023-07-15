@@ -7,9 +7,10 @@ import SwiftUI
 import sariska
 
 struct ContentView: View {
+
     @StateObject private var viewModel: ContentViewModel = ContentViewModel()
-
-
+    @Binding var roomName: String
+    
     var body: some View {
         VStack {
             ZStack {
@@ -39,17 +40,18 @@ struct ContentView: View {
 
                 }
             }
-            VideoCallButtonsView(viewModel: viewModel)
+            
+            VideoCallButtonsView(viewModel: viewModel, roomName: roomName)
         }
 
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView(roomName: "preview")
+//    }
+//}
 
 struct UIViewWrapper: UIViewRepresentable {
     let view: UIView
@@ -77,6 +79,7 @@ class ContentViewModel: ObservableObject {
     @Published var remoteViews: [RTCVideoView] = []
     @Published var participantViews: [String: Int] = [:]
     @Published var numberOfParticipants = 0
+    @Published var roomName: String? = nil
 
     init() {
         initializeSdk()
@@ -84,11 +87,15 @@ class ContentViewModel: ObservableObject {
 
     func initializeSdk() {
         SariskaMediaTransport.initializeSdk()
+    }
+    
+    func createConnection(room: String){
+        
         setupLocalStream()
-
-        let token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImRkMzc3ZDRjNTBiMDY1ODRmMGY4MDJhYmFiNTIyMjg5ODJiMTk2YzAzNzYwNzE4NDhiNWJlNTczN2JiMWYwYTUiLCJ0eXAiOiJKV1QifQ.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiJhMnNvODBsYSIsIm5hbWUiOiJwYXJ0aWFsX2dyb3VzZSJ9LCJncm91cCI6IjIwMiJ9LCJzdWIiOiJxd2ZzZDU3cHE5ZHhha3FxdXE2c2VxIiwicm9vbSI6IioiLCJpYXQiOjE2ODkxNDQ1NTgsIm5iZiI6MTY4OTE0NDU1OCwiaXNzIjoic2FyaXNrYSIsImF1ZCI6Im1lZGlhX21lc3NhZ2luZ19jby1icm93c2luZyIsImV4cCI6MTY4OTIzMDk1OH0.l2xw2-uTkQ2NSq-KDTORg0iUfC_LEkQMIKKaVwGj7X0GBpXmzhcIpIzNZzQs3XemRo4Czcxulxb4KVPlx_KKa1tnkaXietuZOhNBWHQtkxlFg3UR5nNM9BnIcU9mv7zvsGYmvsOstjARiQs82ZXimXcQs5WV9drVVTGw9XpkeRMhdTqQWauXeoOJqYsiIENwDT_TwJ7YXKcFlg6m9AEqDi04cHClxptbtaY-qHdOEh0M0peTekr5uKn4Tc5-CyN5arYIG3_cEy93pqfFEnlMUbAZ2tse1Svk_sNpJlyyjwstUGh3EpVdsEwLFxs8vL2_tcXxQDpHh6_Sm8FBUoVe5w"
-
-        connection = SariskaMediaTransport.jitsiConnection(token, roomName: "dipak", isNightly: false)
+        
+        let token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE1NjdlNjM5MTVhMjg0YzNmZjY3NzA0MjJkZjY2YjBiNTBhMDg1NjIwMmMxY2U5Y2ZhODA1ZDBlZGY1YjJjMTYiLCJ0eXAiOiJKV1QifQ.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiJ1eWw1OTBobiIsIm5hbWUiOiJwYXNzaW5nX25pZ2h0aW5nYWxlIn0sImdyb3VwIjoiNDMyIn0sInN1YiI6ImV6d3lnNWFlemRocjVxbnJxdXRjbzciLCJyb29tIjoiKiIsImlhdCI6MTY4OTQyNzA0MSwibmJmIjoxNjg5NDI3MDQxLCJpc3MiOiJzYXJpc2thIiwiYXVkIjoibWVkaWFfbWVzc2FnaW5nX2NvLWJyb3dzaW5nIiwiZXhwIjoxNjg5NTEzNDQxfQ.Fa6tRH5xb3nfMV8_ba1yDnY4Ngf5XH3Y5KtlQ_pQO_scD_S0mMV_7UFh7Us2Ybkr18aNxIsKOLKddyZBgZMJJJGlrvDJ_LiPwanmXnqiNCwuA9aYT_JmbQmRUXD95lgA0kuTmkjlvH8njIjimbGrHarv3pp3gVn7ZyY8YU80958ZwvXyycuTvCC8oAoIdodiGXp97B-6cfKFYJAGQadTgd1WRn6e75iKHVz5DiuOrI4OByyH-PAkMeUR2on3nk0S1SfaA9e1_BDLYdf0YeIaP_55ufxTEvDBNpH4Tnd931ETuEHmvLk7lDNCG2wnqAA1BwIIooMD0HLferHToNBSZQ"
+        
+        connection = SariskaMediaTransport.jitsiConnection(token, roomName: room, isNightly: false)
 
         connection?.addEventListener("CONNECTION_ESTABLISHED") {
             self.createConference()
@@ -102,6 +109,7 @@ class ContentViewModel: ObservableObject {
 
         connection?.connect()
     }
+    
 
     func createConference() {
         guard let connection = connection else {
@@ -140,10 +148,6 @@ class ContentViewModel: ObservableObject {
         }
 
         conference?.addEventListener("USER_LEFT") { id, participant in
-            print("User left")
-            print(id)
-            print(participant)
-            let leavingParticipant = participant as! Participant
             DispatchQueue.main.async { [self] in
                 remoteViews.removeAll()
             }
@@ -160,7 +164,7 @@ class ContentViewModel: ObservableObject {
         var options: [String: Any] = [:]
         options["audio"] = true
         options["video"] = true
-        options["resolution"] = 720
+        options["resolution"] = 240
 
         SariskaMediaTransport.createLocalTracks(options) { tracks in
             DispatchQueue.main.async {
@@ -179,6 +183,15 @@ class ContentViewModel: ObservableObject {
 
 struct VideoCallButtonsView: View {
     @ObservedObject var viewModel: ContentViewModel
+    var roomName: String
+    
+    init(viewModel: ContentViewModel, roomName: String) {
+        self.viewModel = viewModel
+        print("room Name")
+        print(roomName)
+        
+        self.roomName = roomName
+    }
 
     var body: some View {
         HStack {
@@ -200,12 +213,14 @@ struct VideoCallButtonsView: View {
 
             Button(action: {
                 // End call button action
-                viewModel.isOnlyLocalView.toggle()
                 if(viewModel.callStarted){
                     viewModel.conference?.leave()
                     viewModel.connection?.disconnect()
+                    viewModel.isOnlyLocalView = false
                 }else{
-                    viewModel.initializeSdk()
+                    //viewModel.initializeSdk()
+                    viewModel.isOnlyLocalView = true
+                    viewModel.createConnection(room: roomName)
                 }
                 viewModel.callStarted.toggle()
             }) {

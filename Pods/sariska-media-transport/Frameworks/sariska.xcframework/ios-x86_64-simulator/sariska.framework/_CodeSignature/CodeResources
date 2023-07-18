@@ -6,27 +6,7 @@
 	<dict>
 		<key>AccessibilityResources.bundle/Info.plist</key>
 		<data>
-		lwVz0d0FO7YvBO2Q2YU28kR5Gys=
-		</data>
-		<key>AccessibilityResources.bundle/_CodeSignature/CodeDirectory</key>
-		<data>
-		3vxUawHGLTepfBqDQVg7sqQUGqc=
-		</data>
-		<key>AccessibilityResources.bundle/_CodeSignature/CodeRequirements</key>
-		<data>
-		OnX22wWFKRSOFN1+obRynMCeyXM=
-		</data>
-		<key>AccessibilityResources.bundle/_CodeSignature/CodeRequirements-1</key>
-		<data>
-		PgSlhUAjTh/ZcA15om6g9GoF034=
-		</data>
-		<key>AccessibilityResources.bundle/_CodeSignature/CodeResources</key>
-		<data>
-		RMh4lkG5vRpiauJ2diBFyeeUV/0=
-		</data>
-		<key>AccessibilityResources.bundle/_CodeSignature/CodeSignature</key>
-		<data>
-		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
+		hQdHlxouaUCIDuVI6Txitds0ngw=
 		</data>
 		<key>AccessibilityResources.bundle/en.lproj/Localizable.strings</key>
 		<dict>
@@ -51,7 +31,7 @@
 		</data>
 		<key>Headers/Conference.h</key>
 		<data>
-		uunxAcx9pQNGRlytgi6fk4EP9ac=
+		aKmTcd3oG6kvmliGjoo5biFm8e0=
 		</data>
 		<key>Headers/Connection.h</key>
 		<data>
@@ -83,7 +63,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		rpK4gO5pxAGpisA66nIkwJyw0KA=
+		ehGxEBehoiX+911MhHY8b69v90w=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -103,7 +83,7 @@
 		</data>
 		<key>main.jsbundle</key>
 		<data>
-		/yxptVr9iV43dwXxFJ/1Z3Az8lE=
+		OohR6yzKAM0rZ5shbJlSHZJlLTk=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -112,42 +92,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Yx0c3Rw0+aIPHxYhwIWARGRUArhhXQxmMBwKrDOYrj4=
-			</data>
-		</dict>
-		<key>AccessibilityResources.bundle/_CodeSignature/CodeDirectory</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			v97IrAn+0dBVJpawhX037aignO03nIMepL1rFqOotCk=
-			</data>
-		</dict>
-		<key>AccessibilityResources.bundle/_CodeSignature/CodeRequirements</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			mHkgkE6rZQ51eIwFSqCwUk5qgL/HGqMt+NI3phdD+YY=
-			</data>
-		</dict>
-		<key>AccessibilityResources.bundle/_CodeSignature/CodeRequirements-1</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			zIqw2RFnpoD2knfl2VdwKhbIZmOR6Z0vEgqJrOpKHPM=
-			</data>
-		</dict>
-		<key>AccessibilityResources.bundle/_CodeSignature/CodeResources</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			P78dgVuYBN6LjxMpLPm3PU7TVW+nH5E8LhE3e7gyZR4=
-			</data>
-		</dict>
-		<key>AccessibilityResources.bundle/_CodeSignature/CodeSignature</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
+			3lCgznU2bYLuwXnmxKz4XiwY6iU1jslgS+o1Xd4i39w=
 			</data>
 		</dict>
 		<key>AccessibilityResources.bundle/en.lproj/Localizable.strings</key>
@@ -184,7 +129,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			mCkfMvZRq9fOlESqhXI2LF+OC+l+lmOWoiASfPdpu/4=
+			UuHaT2SbdBbkP0T7sb5CNpUaeKXXeYFfmYBbIj86FNo=
 			</data>
 		</dict>
 		<key>Headers/Connection.h</key>
@@ -268,7 +213,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			WBFh+5aQ0CbT/FzAK+pS4ECy3DpaE788147Ec2xOdY0=
+			SWNIFhQoAtkA5bhwWWhKmVApxZcJNsELfK8y/v+B1dM=
 			</data>
 		</dict>
 	</dict>

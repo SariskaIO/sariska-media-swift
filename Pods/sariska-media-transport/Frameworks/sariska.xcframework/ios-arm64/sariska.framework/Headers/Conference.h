@@ -59,6 +59,8 @@ typedef void(^ConferenceCallbackParam4)(id,id,id,id);
 - (void)lock:(NSString *)password;
 - (void)setSubject:(NSString *)subject;
 - (void)unlock;
+- (void)enableLobby;
+- (void)joinLobby: (NSString*) displayName email: (NSString*) email;
 - (void)kickParticipant:(NSString *) id;
 - (void)kickParticipant:(NSString * ) id reason:(NSString *) reason;
 - (void)startSIPVideoCall:(NSString * ) sipAddress room:(NSString *) room;
@@ -90,5 +92,7 @@ typedef void(^ConferenceCallbackParam4)(id,id,id,id);
 - (void)addEventListener: (NSString *) event callback4: (ConferenceCallbackParam4) callback4;
 - (void)removeEventListener: (NSString *) event;
 - (void)newConferenceMessage:(NSString *) action m:(NSDictionary *) m;
+- (void)lobbyApproveAccess: (NSString *) participantId;
+- (void)lobbyDenyAccess: (NSString *) participantId;
 @end
 NS_ASSUME_NONNULL_END

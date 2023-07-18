@@ -1,4 +1,5 @@
 ${PODS_ROOT}/Target Support Files/Pods-Sariska-Demo-iOS/Pods-Sariska-Demo-iOS-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
 ${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework
 ${PODS_XCFRAMEWORKS_BUILD_DIR}/sariska-media-transport/sariska.framework/sariska
 ${PODS_XCFRAMEWORKS_BUILD_DIR}/sariska-media-transport/WebRTC.framework/WebRTC

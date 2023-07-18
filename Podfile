@@ -5,7 +5,8 @@ target 'Sariska-Demo-iOS' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  # Pods for Sariska-Demo-iOS
+  #Pods for Sariska-Demo-iOS
+  
 	pod 'sariska-media-transport', :git => 'https://github.com/SariskaIO/sariska-ios-sdk-releases.git', :branch => 'ios'
     
     post_install do |installer|
@@ -17,5 +18,7 @@ target 'Sariska-Demo-iOS' do
     end
     
     pod 'SwiftyJSON'
+
+	pod 'Alamofire', '~> 5.7'
 
 end

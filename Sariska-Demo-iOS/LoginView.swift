@@ -6,7 +6,6 @@
 //
 
 import Foundation
-
 import SwiftUI
 
 struct LoginView: View {
@@ -47,7 +46,7 @@ struct LoginView: View {
                         isNavigated = true
                     }
                 }) {
-                    Text("Start Call")
+                    Text("Enter Room")
                         .foregroundColor(.white)
                         .padding()
                         .background(roomName.isEmpty || userName.isEmpty ? Color.gray : Color.blue)
@@ -59,7 +58,6 @@ struct LoginView: View {
                 }
             }
             .padding()
-            
         }
     }
 }

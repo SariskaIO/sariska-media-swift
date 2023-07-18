@@ -135,6 +135,6 @@ install_xcframework() {
   echo "Copied $source to $destination"
 }
 
-install_xcframework "${PODS_ROOT}/../../sdks/sariska-ios-sdk-releases/Frameworks/sariska.xcframework" "sariska-media-transport" "framework" "ios-arm64" "ios-x86_64-simulator"
-install_xcframework "${PODS_ROOT}/../../sdks/sariska-ios-sdk-releases/Frameworks/WebRTC.xcframework" "sariska-media-transport" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/../../sdks/sariska-ios-sdk-releases/sariska.xcframework" "sariska-media-transport" "framework" "ios-arm64" "ios-x86_64-simulator"
+install_xcframework "${PODS_ROOT}/../../sdks/sariska-ios-sdk-releases/WebRTC.xcframework" "sariska-media-transport" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
 

@@ -5,7 +5,6 @@
 
 import SwiftUI
 import sariska
-import WebRTC
 import Alamofire
 
 struct ContentView: View {
@@ -24,7 +23,6 @@ struct ContentView: View {
                 if !viewModel.isOnlyLocalView {
                     if let view = viewModel.videoView {
                         UIViewWrapper(view: view)
-                    
                     }
                 }
 
@@ -92,6 +90,7 @@ class ContentViewModel: ObservableObject {
 
     init() {
         initializeSdk()
+        setupLocalStream()
     }
 
     func initializeSdk() {
@@ -99,7 +98,6 @@ class ContentViewModel: ObservableObject {
     }
     
     func createConnection(room: String, userName: String){
-        setupLocalStream()
         makeAPIRequest(apiKey: "249202aabed00b41363794b526eee6927bd35cbc9bac36cd3edcaa", room: room, userName: userName)
     }
     
@@ -156,7 +154,6 @@ class ContentViewModel: ObservableObject {
             }
     }
     
-
     func createConference() {
         guard let connection = connection else {
             return
@@ -167,11 +164,13 @@ class ContentViewModel: ObservableObject {
         conference?.addEventListener("CONFERENCE_JOINED") { [self] in
             for track in self.localTracks {
                 conference?.addTrack(track: track)
-                callStarted = true;
+                callStarted = true
             }
         }
 
         conference?.addEventListener("CONFERENCE_FAILED"){
+            print("conference failed")
+            self.conference?.joinLobby(self.conference?.getUserName() ?? "Default User", email: "emailer@gmail.com")
         }
 
         conference?.addEventListener("TRACK_ADDED") { track in
@@ -180,7 +179,6 @@ class ContentViewModel: ObservableObject {
                     return
                 }
                 if(remoteTrack.getStreamURL() == localTracks[0].getStreamURL() || remoteTrack.getStreamURL() == localTracks[1].getStreamURL()){
-                    print("returning")
                     return
                 }
                 if(remoteTrack.getType().elementsEqual("video") ){
@@ -235,7 +233,7 @@ class ContentViewModel: ObservableObject {
         var options: [String: Any] = [:]
         options["audio"] = true
         options["video"] = true
-        options["resolution"] = 240
+        options["resolution"] = 720
 
         SariskaMediaTransport.createLocalTracks(options) { tracks in
             DispatchQueue.main.async {

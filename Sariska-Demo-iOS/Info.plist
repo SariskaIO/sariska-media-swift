@@ -6,9 +6,5 @@
 	<string></string>
 	<key>App Icons Source</key>
 	<string>AppIcon</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Need for video</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Need for video call</string>
 </dict>
 </plist>

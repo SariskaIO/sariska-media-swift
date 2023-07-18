@@ -113,17 +113,17 @@
 		30C7AB0C34B2F81D314EF29DB2479728 /* Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Alamofire.swift; path = Source/Alamofire.swift; sourceTree = "<group>"; };
 		3B697EA074391CA1E5281F6C42FEC222 /* Request.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Request.swift; path = Source/Request.swift; sourceTree = "<group>"; };
 		3D09A6A328F3AEB0CF7CB70681047E5A /* Pods-Sariska-Demo-iOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Sariska-Demo-iOS.modulemap"; sourceTree = "<group>"; };
+		403F5DA7774185DA1F4A154DCC4341D8 /* sariska.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = sariska.xcframework; sourceTree = "<group>"; };
 		40A2EBF5257D2162748FB0D6BAAC62BE /* Alamofire.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Alamofire.release.xcconfig; sourceTree = "<group>"; };
+		41CB0561F5FA5CB369157151F9C8959F /* WebRTC.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = WebRTC.xcframework; sourceTree = "<group>"; };
 		4B55A86AD74401D249D77D562AB87E21 /* RequestCompression.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RequestCompression.swift; path = Source/RequestCompression.swift; sourceTree = "<group>"; };
 		4F52183AA88EF29A04361F06AC99B923 /* Pods-Sariska-Demo-iOS-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Sariska-Demo-iOS-frameworks.sh"; sourceTree = "<group>"; };
 		501AA2DD4A61A385DAAA2B5D51AFFAA4 /* StringEncoding+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "StringEncoding+Alamofire.swift"; path = "Source/StringEncoding+Alamofire.swift"; sourceTree = "<group>"; };
 		5190045555EB63C0CE433336B62F1EFE /* MultipartUpload.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MultipartUpload.swift; path = Source/MultipartUpload.swift; sourceTree = "<group>"; };
 		528324114E67C28E10AD71BF531E9A0E /* SwiftyJSON.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftyJSON.modulemap; sourceTree = "<group>"; };
 		55AC0B3E5EFE171CF2531104772E1A19 /* ServerTrustEvaluation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ServerTrustEvaluation.swift; path = Source/ServerTrustEvaluation.swift; sourceTree = "<group>"; };
-		59F6BE24169E753AD88B3976E54DC87A /* sariska.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = sariska.xcframework; path = Frameworks/sariska.xcframework; sourceTree = "<group>"; };
 		5D797E9A5C5782CE845840781FA1CC81 /* Alamofire */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Alamofire; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6122F7837BC3657FB979A4B70F075644 /* HTTPMethod.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HTTPMethod.swift; path = Source/HTTPMethod.swift; sourceTree = "<group>"; };
-		6358F8EF36CE45E0AF628D93612EAB50 /* WebRTC.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = WebRTC.xcframework; path = Frameworks/WebRTC.xcframework; sourceTree = "<group>"; };
 		74391BDD82CE581AF8EEB0CA18A048B1 /* Validation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Validation.swift; path = Source/Validation.swift; sourceTree = "<group>"; };
 		75F57608866ED7F1B0AECAAD3E8D1480 /* ParameterEncoder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoder.swift; path = Source/ParameterEncoder.swift; sourceTree = "<group>"; };
 		75F5B7EF640D4B1A9C333EADBD359F47 /* SwiftyJSON-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SwiftyJSON-Info.plist"; sourceTree = "<group>"; };
@@ -207,6 +207,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		164E88712D21BB0877EF3D935C749D4A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				403F5DA7774185DA1F4A154DCC4341D8 /* sariska.xcframework */,
+				41CB0561F5FA5CB369157151F9C8959F /* WebRTC.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		33052F957E46F598F3530A71620D2DC5 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -231,15 +240,6 @@
 			);
 			name = "Support Files";
 			path = "../Target Support Files/Alamofire";
-			sourceTree = "<group>";
-		};
-		386DB268FE132A85D6AEE6A45E9469B2 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				59F6BE24169E753AD88B3976E54DC87A /* sariska.xcframework */,
-				6358F8EF36CE45E0AF628D93612EAB50 /* WebRTC.xcframework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		3B5B2CDDC9ACCECC65D4DE3D945692E1 /* SwiftyJSON */ = {
@@ -290,7 +290,7 @@
 		8EE91121716E8CE87D18A8C39876565A /* sariska-media-transport */ = {
 			isa = PBXGroup;
 			children = (
-				386DB268FE132A85D6AEE6A45E9469B2 /* Frameworks */,
+				164E88712D21BB0877EF3D935C749D4A /* Frameworks */,
 				A637A8BC292EF163D712DB3EAAAF12FE /* Pod */,
 				33052F957E46F598F3530A71620D2DC5 /* Support Files */,
 			);

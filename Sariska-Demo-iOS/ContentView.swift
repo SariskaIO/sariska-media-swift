@@ -9,10 +9,10 @@ import WebRTC
 import Alamofire
 
 struct ContentView: View {
-
-
+    
     @StateObject private var viewModel: ContentViewModel = ContentViewModel()
     @Binding var roomName: String
+    @Binding var userName: String
     
     var body: some View {
         VStack {
@@ -45,7 +45,8 @@ struct ContentView: View {
                 }
             }
             
-            VideoCallButtonsView(viewModel: viewModel, roomName: roomName)
+            VideoCallButtonsView(viewModel: viewModel, roomName: roomName, userName: userName)
+            
         }.alert("Allow?", isPresented: $viewModel.isShowingPopup) {
             Button("Approve") {
                 viewModel.approveAccess(id: viewModel.getId())
@@ -54,7 +55,7 @@ struct ContentView: View {
                 viewModel.denyAccess(id: viewModel.getId())
             }
         } message: {
-            Text("This is a small message below the title, just so you know.")
+            Text("Approve to let the participant in.")
         }
     }
 }
@@ -97,12 +98,9 @@ class ContentViewModel: ObservableObject {
         SariskaMediaTransport.initializeSdk()
     }
     
-    func createConnection(room: String){
-        
+    func createConnection(room: String, userName: String){
         setupLocalStream()
-        
-        makeAPIRequest(apiKey: "249202aabed00b41363794b526eee6927bd35cbc9bac36cd3edcaa", room: room)
-        
+        makeAPIRequest(apiKey: "249202aabed00b41363794b526eee6927bd35cbc9bac36cd3edcaa", room: room, userName: userName)
     }
     
     func approveAccess(id: String){
@@ -117,11 +115,17 @@ class ContentViewModel: ObservableObject {
         return self.id ?? "null"
     }
     
-    func makeAPIRequest(apiKey: String, room: String){
+    func makeAPIRequest(apiKey: String, room: String, userName: String){
         let url = "https://api.sariska.io/api/v1/misc/generate-token"
         
         let parameters: [String: Any] = [
-            "apiKey": apiKey
+            "apiKey": apiKey,
+            "user": [
+                "id": "12235",
+                "name": userName,
+                "email": "nick@gmail.com",
+                "avatar": "https://test.com/user/profile.jpg"
+            ]
         ]
         
         AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { [self] response in
@@ -255,10 +259,12 @@ class ContentViewModel: ObservableObject {
 struct VideoCallButtonsView: View {
     @ObservedObject var viewModel: ContentViewModel
     var roomName: String
+    var userName: String
     
-    init(viewModel: ContentViewModel, roomName: String) {
+    init(viewModel: ContentViewModel, roomName: String, userName: String) {
         self.viewModel = viewModel
         self.roomName = roomName
+        self.userName = userName
     }
 
     var body: some View {
@@ -286,9 +292,10 @@ struct VideoCallButtonsView: View {
                     viewModel.connection?.disconnect()
                     viewModel.isOnlyLocalView = false
                 }else{
-                    //viewModel.initializeSdk()
+                    viewModel.remoteViews.removeAll()
+                    viewModel.initializeSdk()
                     viewModel.isOnlyLocalView = true
-                    viewModel.createConnection(room: roomName)
+                    viewModel.createConnection(room: roomName, userName: userName)
                 }
                 viewModel.callStarted.toggle()
             }) {

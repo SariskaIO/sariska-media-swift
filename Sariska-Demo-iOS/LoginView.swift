@@ -45,7 +45,7 @@ struct LoginView: View {
                 }
                 .disabled(roomName.isEmpty || userName.isEmpty)
                 .navigationDestination(isPresented: $isNavigated) {
-                    ContentView(roomName: $roomName)
+                    ContentView(roomName: $roomName, userName: $userName)
                 }
             }.padding()
             

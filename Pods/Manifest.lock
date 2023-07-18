@@ -5,7 +5,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 5.7)
-  - sariska-media-transport (from `/Users/dipaksisodiya/Desktop/sariska/sdks/sariska-ios-sdk-releases`)
+  - sariska-media-transport (from `https://github.com/SariskaIO/sariska-ios-sdk-releases.git`, branch `ios`)
   - SwiftyJSON
 
 SPEC REPOS:
@@ -15,13 +15,19 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   sariska-media-transport:
-    :path: "/Users/dipaksisodiya/Desktop/sariska/sdks/sariska-ios-sdk-releases"
+    :branch: ios
+    :git: https://github.com/SariskaIO/sariska-ios-sdk-releases.git
+
+CHECKOUT OPTIONS:
+  sariska-media-transport:
+    :commit: ec6e30f14369dfd0648946aedd356f82775d8454
+    :git: https://github.com/SariskaIO/sariska-ios-sdk-releases.git
 
 SPEC CHECKSUMS:
   Alamofire: 0123a34370cb170936ae79a8df46cc62b2edeb88
-  sariska-media-transport: d947d6736bb1424e2f136d253a9e31447771e3bd
+  sariska-media-transport: 488301850e20b6b8634529062a3b876588cf6374
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
 
-PODFILE CHECKSUM: 3209567a78dee5b0c10340d17d0d4adf2ebe234f
+PODFILE CHECKSUM: 508e46d1121f66bef6b961b1957290da2647234a
 
 COCOAPODS: 1.12.1

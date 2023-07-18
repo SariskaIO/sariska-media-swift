@@ -14,8 +14,8 @@
     "ios": "11.0"
   },
   "vendored_frameworks": [
-    "sariska.xcframework",
-    "WebRTC.xcframework"
+    "Frameworks/sariska.xcframework",
+    "Frameworks/WebRTC.xcframework"
   ],
   "pod_target_xcconfig": {
     "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"

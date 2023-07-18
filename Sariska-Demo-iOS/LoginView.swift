@@ -18,18 +18,28 @@ struct LoginView: View {
         NavigationStack {
             VStack{
                 
-                Image("Image") // Replace "logo" with the name of your image asset
+                Image("SariskaLogo")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(height: 70)
+                    .frame(height: 100)
                     .padding(.top, 50)
+                    .padding(.bottom, 40)
                 
+                Text("Sariska Meet")
+                    .bold()
+
                 TextField("Room Name", text: $roomName)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .cornerRadius(10)
+                    .border(Color.gray, width: 1)
+                    .frame(height: 40)
                     .padding()
                 
                 TextField("User Name", text: $userName)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .cornerRadius(10)
+                    .border(Color.gray, width: 1)
+                    .frame(height: 40)
                     .padding()
                 
                 Button(action: {
@@ -47,9 +57,9 @@ struct LoginView: View {
                 .navigationDestination(isPresented: $isNavigated) {
                     ContentView(roomName: $roomName, userName: $userName)
                 }
-            }.padding()
+            }
+            .padding()
             
         }
     }
-    
 }

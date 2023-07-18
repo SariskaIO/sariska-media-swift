@@ -121,10 +121,7 @@ class ContentViewModel: ObservableObject {
         let parameters: [String: Any] = [
             "apiKey": apiKey,
             "user": [
-                "id": "12235",
                 "name": userName,
-                "email": "nick@gmail.com",
-                "avatar": "https://test.com/user/profile.jpg"
             ]
         ]
         
@@ -134,7 +131,6 @@ class ContentViewModel: ObservableObject {
                     // Handle successful response
                     if let json = value as? [String: Any], let token = json["token"] as? String {
                         // Extracted token value
-                        print("Token: \(token)")
                         
                         self.connection = SariskaMediaTransport.jitsiConnection(token, roomName: room, isNightly: false)
 
@@ -260,6 +256,7 @@ struct VideoCallButtonsView: View {
     @ObservedObject var viewModel: ContentViewModel
     var roomName: String
     var userName: String
+    @Environment(\.dismiss) private var dismiss
     
     init(viewModel: ContentViewModel, roomName: String, userName: String) {
         self.viewModel = viewModel
@@ -290,14 +287,11 @@ struct VideoCallButtonsView: View {
                 if(viewModel.callStarted){
                     viewModel.conference?.leave()
                     viewModel.connection?.disconnect()
-                    viewModel.isOnlyLocalView = false
+                    dismiss()
                 }else{
-                    viewModel.remoteViews.removeAll()
-                    viewModel.initializeSdk()
-                    viewModel.isOnlyLocalView = true
                     viewModel.createConnection(room: roomName, userName: userName)
+                    viewModel.callStarted = true
                 }
-                viewModel.callStarted.toggle()
             }) {
                 Image(systemName: viewModel.callStarted ? "phone.down.fill": "phone.fill.arrow.up.right")
                         .resizable()

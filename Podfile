@@ -6,7 +6,9 @@ target 'Sariska-Demo-iOS' do
   use_frameworks!
 
   # Pods for Sariska-Demo-iOS
-	pod 'sariska-media-transport', :git => 'https://github.com/SariskaIO/sariska-ios-sdk-releases.git', :branch => 'ios'
+#	pod 'sariska-media-transport', :git => 'https://github.com/SariskaIO/sariska-ios-sdk-#releases.git', :branch => 'workingios'
+
+	pod 'sariska-media-transport', :path => '/Users/dipaksisodiya/Desktop/sariska/sdks/sariska-ios-sdk-releases'
     
     post_install do |installer|
         installer.pods_project.targets.each do |target|
@@ -17,5 +19,7 @@ target 'Sariska-Demo-iOS' do
     end
     
     pod 'SwiftyJSON'
+
+	pod 'Alamofire', '~> 5.7'
 
 end

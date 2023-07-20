@@ -242,7 +242,7 @@ class ContentViewModel: ObservableObject {
                     if track.getType() == "video" {
                         let sdasd = track.render()
                         self.videoView = sdasd
-                        self.isOnlyLocalView.toggle()
+                        self.isOnlyLocalView = false
                     }
                 }
             }
@@ -303,8 +303,13 @@ struct VideoCallButtonsView: View {
             Button(action: {
                 if viewModel.isVideoMuted {
                     viewModel.localTracks[1].unmute()
-                    viewModel.localTracks = viewModel.conference?.getLocalTracks() as! [JitsiLocalTrack]
-                    viewModel.videoView = viewModel.localTracks[1].render()
+                    if(viewModel.conference == nil){
+                        viewModel.localTracks = []
+                        viewModel.setupLocalStream()
+                    }else{
+                        viewModel.localTracks = viewModel.conference?.getLocalTracks() as! [JitsiLocalTrack]
+                        viewModel.videoView = viewModel.localTracks[1].render()
+                    }
                 } else {
                     viewModel.localTracks[1].mute()
                 }

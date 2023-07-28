@@ -162,6 +162,7 @@ class ContentViewModel: ObservableObject {
         conference = connection.initJitsiConference()
 
         conference?.addEventListener("CONFERENCE_JOINED") { [self] in
+            
             for track in self.localTracks {
                 conference?.addTrack(track: track)
                 callStarted = true
@@ -174,6 +175,7 @@ class ContentViewModel: ObservableObject {
         }
 
         conference?.addEventListener("TRACK_ADDED") { track in
+            print("Local Tracks")
             DispatchQueue.main.async { [self] in
                 guard let remoteTrack = track as? JitsiRemoteTrack else {
                     return
@@ -186,7 +188,7 @@ class ContentViewModel: ObservableObject {
                     numberOfParticipants = numberOfParticipants+1
                     participantViews[remoteTrack.getParticipantId()] = numberOfParticipants
                     rtcRemoteView.tag = numberOfParticipants
-                    self.remoteViews.append(remoteTrack.render() )
+                    self.remoteViews.append(remoteTrack.render())
                 }
             }
         }
@@ -202,6 +204,10 @@ class ContentViewModel: ObservableObject {
                             remoteViews.removeAll()
             }
         }
+        
+        conference?.addEventListener("TRACK_REMOVED", callback1: {id in
+            print("Track Removed")
+        })
 
         conference?.addEventListener("USER_ROLE_CHANGED", callback1: {id in
             print("User role changed")
@@ -222,7 +228,7 @@ class ContentViewModel: ObservableObject {
         conference?.addEventListener("CONFERENCE_LEFT") { [self] in
             callStarted = false
             DispatchQueue.main.async { [self] in
-                            remoteViews.removeAll()
+                remoteViews.removeAll()
             }
         }
 
@@ -242,7 +248,7 @@ class ContentViewModel: ObservableObject {
                     if track.getType() == "video" {
                         let sdasd = track.render()
                         self.videoView = sdasd
-                        self.isOnlyLocalView.toggle()
+                        self.isOnlyLocalView = false
                     }
                 }
             }
@@ -303,8 +309,13 @@ struct VideoCallButtonsView: View {
             Button(action: {
                 if viewModel.isVideoMuted {
                     viewModel.localTracks[1].unmute()
-                    viewModel.localTracks = viewModel.conference?.getLocalTracks() as! [JitsiLocalTrack]
-                    viewModel.videoView = viewModel.localTracks[1].render()
+                    if(viewModel.conference == nil){
+                        viewModel.localTracks = []
+                        viewModel.setupLocalStream()
+                    }else{
+                        viewModel.localTracks = viewModel.conference?.getLocalTracks() as! [JitsiLocalTrack]
+                        viewModel.videoView = viewModel.localTracks[1].render()
+                    }
                 } else {
                     viewModel.localTracks[1].mute()
                 }

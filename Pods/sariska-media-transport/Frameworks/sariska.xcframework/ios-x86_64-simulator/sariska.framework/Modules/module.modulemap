@@ -1,6 +1,0 @@
-framework module sariska {
-  umbrella header "sariska.h"
-
-  export *
-  module * { export * }
-}

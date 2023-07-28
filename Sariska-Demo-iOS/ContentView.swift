@@ -162,6 +162,7 @@ class ContentViewModel: ObservableObject {
         conference = connection.initJitsiConference()
 
         conference?.addEventListener("CONFERENCE_JOINED") { [self] in
+            
             for track in self.localTracks {
                 conference?.addTrack(track: track)
                 callStarted = true
@@ -174,6 +175,7 @@ class ContentViewModel: ObservableObject {
         }
 
         conference?.addEventListener("TRACK_ADDED") { track in
+            print("Local Tracks")
             DispatchQueue.main.async { [self] in
                 guard let remoteTrack = track as? JitsiRemoteTrack else {
                     return
@@ -186,7 +188,7 @@ class ContentViewModel: ObservableObject {
                     numberOfParticipants = numberOfParticipants+1
                     participantViews[remoteTrack.getParticipantId()] = numberOfParticipants
                     rtcRemoteView.tag = numberOfParticipants
-                    self.remoteViews.append(remoteTrack.render() )
+                    self.remoteViews.append(remoteTrack.render())
                 }
             }
         }
@@ -202,6 +204,10 @@ class ContentViewModel: ObservableObject {
                             remoteViews.removeAll()
             }
         }
+        
+        conference?.addEventListener("TRACK_REMOVED", callback1: {id in
+            print("Track Removed")
+        })
 
         conference?.addEventListener("USER_ROLE_CHANGED", callback1: {id in
             print("User role changed")
@@ -222,7 +228,7 @@ class ContentViewModel: ObservableObject {
         conference?.addEventListener("CONFERENCE_LEFT") { [self] in
             callStarted = false
             DispatchQueue.main.async { [self] in
-                            remoteViews.removeAll()
+                remoteViews.removeAll()
             }
         }
 
